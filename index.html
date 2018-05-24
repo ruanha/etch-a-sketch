@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>etch-a-sketch</title>
+</head>
+<body>
+    <div>
+        <button id="reset">Reset</button>
+    </div>
+    <div class="container">
+    </div>
+
+    <script type="text/javascript">
+        function setGrid(squaresPerSide=16){
+            const container = document.querySelector('.container');
+            let boxDiv;
+            container.innerHTML = "";
+
+            container.style.gridTemplateColumns =  `repeat(${squaresPerSide}, auto)`;
+            container.style.gridTemplateRows = `repeat(${squaresPerSide}, auto)`;
+            console.log(container)
+
+            for (let i = 0; i < (squaresPerSide*squaresPerSide); i++) {
+                boxDiv = document.createElement('div');
+                boxDiv.setAttribute('class', 'box');
+                boxDiv.setAttribute('id', 'box'+i);
+                container.append(boxDiv);
+            };
+            setCellListeners();
+        }
+
+        function setCellListeners(){
+            const cells = document.querySelectorAll('.box');
+            let cell;
+            cells.forEach((cell) => {
+                cell.addEventListener('mouseenter', (e) => {
+                    cell.style.background = '#555';
+                });
+            });
+        }
+
+        
+        setGrid();
+
+        function doReset(e){
+            console.log(e);
+            squaresPerSide = prompt("how many squares per side");
+            setGrid(squaresPerSide);
+        }
+
+        const button = document.querySelector('#reset');
+        button.addEventListener('click', doReset)
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</body>
+</html>
