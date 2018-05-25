@@ -6,12 +6,15 @@
 </head>
 <body>
     <div>
-        <button id="reset">Reset</button>
+        <button id="reset">Reset</button> <button id="color">ColorMode</button>
+        <button id="opaque">Opaque</button> <button id="default">Default</button>
     </div>
     <div class="container">
     </div>
 
     <script type="text/javascript">
+        let colorModeStatus = "default";
+
         function setGrid(squaresPerSide=16){
             const container = document.querySelector('.container');
             let boxDiv;
@@ -19,7 +22,6 @@
 
             container.style.gridTemplateColumns =  `repeat(${squaresPerSide}, auto)`;
             container.style.gridTemplateRows = `repeat(${squaresPerSide}, auto)`;
-            console.log(container)
 
             for (let i = 0; i < (squaresPerSide*squaresPerSide); i++) {
                 boxDiv = document.createElement('div');
@@ -35,22 +37,62 @@
             let cell;
             cells.forEach((cell) => {
                 cell.addEventListener('mouseenter', (e) => {
-                    cell.style.background = '#555';
+                    cell.style.background = colorMode(e);
                 });
             });
         }
 
+        function colorMode(e){
+            if (colorModeStatus == "default") {
+                return "rgb("+224+","+224+","+224+")";
+
+            } else if (colorModeStatus == "color") {
+                let R, G, B;
+                R = Math.round( Math.random()*256 );
+                G = Math.round( Math.random()*256 );
+                B = Math.round( Math.random()*256 );
+                rgbString = "rgb("+R+","+G+","+B+")";
+                return rgbString;
+
+            } else if (colorModeStatus == "opaque") {
+                currentColor = e.target['style']["background-color"];
+
+                if (currentColor) {
+                    asString = currentColor.slice(4,-1).split(',')
+                    justTheNumber = parseInt(asString)
+                    newNumber = (justTheNumber - 32 >= 0) ? justTheNumber - 32 : 0;
+                    rgbString = "rgb("+newNumber+","+newNumber+","+newNumber+")"
+                    return rgbString;
+
+                } else {
+                    return "rgb("+224+","+224+","+224+")";
+                }
+            }
+        };
+
         
         setGrid();
 
+        function setColorMode(e){
+            colorModeStatus = e.target['id'];
+        }
+
         function doReset(e){
-            console.log(e);
             squaresPerSide = prompt("how many squares per side");
             setGrid(squaresPerSide);
         }
 
-        const button = document.querySelector('#reset');
-        button.addEventListener('click', doReset)
+        const buttonReset = document.querySelector('#reset');
+        buttonReset.addEventListener('click', doReset)
+
+        const buttonColor = document.querySelector('#color');
+        buttonColor.addEventListener('click', setColorMode);
+
+        const buttonOpaque = document.querySelector('#opaque');
+        buttonOpaque.addEventListener('click', setColorMode);
+
+        const buttonDefault = document.querySelector('#default');
+        buttonDefault.addEventListener('click', setColorMode);
 
     </script>
     <link rel="stylesheet" type="text/css" href="styles.css">
