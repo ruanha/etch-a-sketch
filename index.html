@@ -5,13 +5,14 @@
     <title>etch-a-sketch</title>
 </head>
 <body>
-    <div>
-        <button id="reset">Reset</button> <button id="color">ColorMode</button>
-        <button id="opaque">Opaque</button> <button id="default">Default</button>
+    <div class="outer">
+        <div>
+            <button id="reset">Reset</button> <button id="color">ColorMode</button>
+            <button id="transparent">Transparent</button> <button id="default">Default</button>
+        </div>
+        <div class="container">
+        </div>
     </div>
-    <div class="container">
-    </div>
-
     <script type="text/javascript">
         let colorModeStatus = "default";
 
@@ -44,7 +45,7 @@
 
         function colorMode(e){
             if (colorModeStatus == "default") {
-                return "rgb("+224+","+224+","+224+")";
+                return "rgb("+128+","+128+","+128+")";
 
             } else if (colorModeStatus == "color") {
                 let R, G, B;
@@ -54,7 +55,7 @@
                 rgbString = "rgb("+R+","+G+","+B+")";
                 return rgbString;
 
-            } else if (colorModeStatus == "opaque") {
+            } else if (colorModeStatus == "transparent") {
                 currentColor = e.target['style']["background-color"];
 
                 if (currentColor) {
@@ -88,8 +89,8 @@
         const buttonColor = document.querySelector('#color');
         buttonColor.addEventListener('click', setColorMode);
 
-        const buttonOpaque = document.querySelector('#opaque');
-        buttonOpaque.addEventListener('click', setColorMode);
+        const buttonTransparent = document.querySelector('#transparent');
+        buttonTransparent.addEventListener('click', setColorMode);
 
         const buttonDefault = document.querySelector('#default');
         buttonDefault.addEventListener('click', setColorMode);
